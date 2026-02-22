@@ -30,7 +30,7 @@ A modern, minimalist calorie tracking Progressive Web App (PWA) powered by **Gro
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/CalAI.git
+git clone https://github.com/NT1906/CalAI.git
 cd CalAI
 
 # Install dependencies
