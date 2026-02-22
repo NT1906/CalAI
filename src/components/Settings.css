@@ -1,0 +1,229 @@
+.settings-page {
+    padding-bottom: var(--space-10);
+}
+
+.settings-group {
+    padding: var(--space-5);
+}
+
+.settings-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+
+.settings-group-title {
+    font-size: var(--font-base);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-3);
+}
+
+.settings-group-header .settings-group-title {
+    margin-bottom: 0;
+}
+
+.settings-field {
+    margin-bottom: var(--space-3);
+}
+
+.settings-field label {
+    display: block;
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-1);
+    font-weight: 500;
+}
+
+.settings-hint {
+    font-size: var(--font-sm);
+    color: var(--text-tertiary);
+    line-height: 1.5;
+}
+
+.settings-link {
+    color: var(--accent-secondary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.settings-link:hover {
+    text-decoration: underline;
+}
+
+/* Calorie input */
+.cal-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.cal-input {
+    width: 120px;
+    text-align: center;
+    font-size: var(--font-lg) !important;
+    font-weight: 700;
+}
+
+.cal-input-unit {
+    font-size: var(--font-sm);
+    color: var(--text-tertiary);
+    font-weight: 600;
+}
+
+/* API key input */
+.key-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.key-input {
+    flex: 1;
+    font-family: monospace;
+    font-size: var(--font-sm) !important;
+}
+
+.key-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: background var(--transition-fast);
+}
+
+.key-toggle:hover {
+    background: var(--bg-glass-hover);
+}
+
+/* Button config */
+.add-btn-small {
+    font-size: var(--font-sm);
+    color: var(--accent-secondary);
+    font-weight: 600;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.add-btn-small:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.button-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.button-config-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3);
+    background: var(--bg-glass);
+    border-radius: var(--radius-md);
+}
+
+.button-config-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.button-config-emoji {
+    font-size: 1.3rem;
+}
+
+.button-config-name {
+    font-size: var(--font-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.button-config-cal {
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+}
+
+.button-config-actions {
+    display: flex;
+    gap: var(--space-1);
+}
+
+.icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background var(--transition-fast);
+}
+
+.icon-btn:hover {
+    background: var(--bg-glass-hover);
+}
+
+.icon-btn.danger:hover {
+    background: var(--color-danger-bg);
+}
+
+/* Edit / Add form */
+.button-edit-form,
+.button-add-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.button-add-form {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border-glass);
+}
+
+.edit-row {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.emoji-input-sm {
+    width: 48px !important;
+    text-align: center;
+    font-size: 1.2rem !important;
+    flex-shrink: 0;
+}
+
+.edit-actions {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}
+
+/* Danger zone */
+.danger-zone {
+    border-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+.clear-btn {
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-5);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+    border-radius: var(--radius-md);
+    font-size: var(--font-sm);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+}
+
+.clear-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-1px);
+}

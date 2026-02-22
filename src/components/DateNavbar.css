@@ -1,0 +1,94 @@
+.date-navbar {
+    padding: var(--space-3) 0;
+    margin-bottom: var(--space-4);
+}
+
+.date-navbar-scroll {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding: 0 var(--space-4);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.date-navbar-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.date-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-lg);
+    min-width: 56px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.date-item:hover {
+    background: var(--bg-glass-hover);
+    border-color: var(--border-glass-hover);
+    transform: translateY(-2px);
+}
+
+.date-item.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    box-shadow: var(--shadow-glow);
+}
+
+.date-item.active .date-day-name,
+.date-item.active .date-month {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.date-item.active .date-day-num {
+    color: #fff;
+}
+
+.date-item.today:not(.active) {
+    border-color: var(--accent-primary);
+}
+
+.date-day-name {
+    font-size: var(--font-xs);
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.date-day-num {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.date-month {
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+.date-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-top: 2px;
+}
+
+.date-dot.under {
+    background: var(--color-success);
+    box-shadow: 0 0 4px rgba(34, 197, 94, 0.5);
+}
+
+.date-dot.over {
+    background: var(--color-danger);
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
+}
