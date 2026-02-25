@@ -103,14 +103,18 @@ export default function CalorieDashboard() {
                         </div>
                     ))}
 
-                    {currentDayLog.meals.map((meal, i) => (
-                        <div key={`meal-${i}`} className="logged-item glass-card">
+                    {currentDayLog.meals.map((meal, i) => {
+                        const isExercise = meal.type === 'exercise';
+                        return (
+                        <div key={`meal-${i}`} className={`logged-item glass-card ${isExercise ? 'logged-exercise' : ''}`}>
                             <div className="logged-item-info">
                                 <span className="logged-item-name">{meal.description}</span>
-                                <span className="logged-item-type">AI Estimated</span>
+                                <span className="logged-item-type">{isExercise ? 'Exercise' : 'AI Estimated'}</span>
                             </div>
                             <div className="logged-item-right">
-                                <span className="logged-item-cal">{meal.totalCalories} kcal</span>
+                                <span className={`logged-item-cal ${isExercise ? 'exercise-burned' : ''}`}>
+                                    {isExercise ? `-${meal.totalCalories}` : meal.totalCalories} kcal
+                                </span>
                                 <button
                                     className="logged-item-remove"
                                     onClick={() => removeMeal(i)}
@@ -120,7 +124,8 @@ export default function CalorieDashboard() {
                                 </button>
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>

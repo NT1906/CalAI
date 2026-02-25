@@ -19,12 +19,12 @@ const getWeekDates = (centerDate = new Date()) => {
 };
 
 const DEFAULT_BUTTONS = [
-    { id: '1', name: 'Rice', emoji: '🍚', caloriesPerUnit: 200, unit: 'bowl' },
-    { id: '2', name: 'Roti', emoji: '🫓', caloriesPerUnit: 120, unit: 'piece' },
-    { id: '3', name: 'Dal', emoji: '🍲', caloriesPerUnit: 150, unit: 'bowl' },
-    { id: '4', name: 'Chicken', emoji: '🍗', caloriesPerUnit: 250, unit: 'serving' },
-    { id: '5', name: 'Egg', emoji: '🥚', caloriesPerUnit: 75, unit: 'piece' },
-    { id: '6', name: 'Milk', emoji: '🥛', caloriesPerUnit: 150, unit: 'glass' },
+    { id: '1', name: 'Rice', emoji: '🍚', caloriesPerUnit: 200, proteinPerUnit: 4, carbsPerUnit: 45, fatsPerUnit: 0.5, fiberPerUnit: 1, unit: 'bowl' },
+    { id: '2', name: 'Roti', emoji: '🫓', caloriesPerUnit: 120, proteinPerUnit: 3, carbsPerUnit: 20, fatsPerUnit: 3.5, fiberPerUnit: 2, unit: 'piece' },
+    { id: '3', name: 'Dal', emoji: '🍲', caloriesPerUnit: 150, proteinPerUnit: 9, carbsPerUnit: 20, fatsPerUnit: 3, fiberPerUnit: 4, unit: 'bowl' },
+    { id: '4', name: 'Chicken', emoji: '🍗', caloriesPerUnit: 250, proteinPerUnit: 30, carbsPerUnit: 0, fatsPerUnit: 14, fiberPerUnit: 0, unit: 'serving' },
+    { id: '5', name: 'Egg', emoji: '🥚', caloriesPerUnit: 75, proteinPerUnit: 6, carbsPerUnit: 1, fatsPerUnit: 5, fiberPerUnit: 0, unit: 'piece' },
+    { id: '6', name: 'Milk', emoji: '🥛', caloriesPerUnit: 150, proteinPerUnit: 8, carbsPerUnit: 12, fatsPerUnit: 8, fiberPerUnit: 0, unit: 'glass' },
 ];
 
 const loadState = () => {
@@ -45,12 +45,30 @@ const saveState = (state) => {
     }
 };
 
+// Map of default macro values by button id for migration
+const DEFAULT_MACROS = {
+    '1': { proteinPerUnit: 4, carbsPerUnit: 45, fatsPerUnit: 0.5, fiberPerUnit: 1 },   // Rice
+    '2': { proteinPerUnit: 3, carbsPerUnit: 20, fatsPerUnit: 3.5, fiberPerUnit: 2 },   // Roti
+    '3': { proteinPerUnit: 9, carbsPerUnit: 20, fatsPerUnit: 3, fiberPerUnit: 4 },     // Dal
+    '4': { proteinPerUnit: 30, carbsPerUnit: 0, fatsPerUnit: 14, fiberPerUnit: 0 },    // Chicken
+    '5': { proteinPerUnit: 6, carbsPerUnit: 1, fatsPerUnit: 5, fiberPerUnit: 0 },      // Egg
+    '6': { proteinPerUnit: 8, carbsPerUnit: 12, fatsPerUnit: 8, fiberPerUnit: 0 },     // Milk
+};
+
+const migrateButtons = (buttons) => {
+    return buttons.map(btn => {
+        if (btn.proteinPerUnit !== undefined) return btn; // already migrated
+        const defaults = DEFAULT_MACROS[btn.id] || { proteinPerUnit: 0, carbsPerUnit: 0, fatsPerUnit: 0, fiberPerUnit: 0 };
+        return { ...btn, ...defaults };
+    });
+};
+
 export function CalorieProvider({ children }) {
     const savedState = loadState();
 
     const [activeDate, setActiveDate] = useState(getDateStr());
     const [dailyLogs, setDailyLogs] = useState(savedState?.dailyLogs || {});
-    const [buttons, setButtons] = useState(savedState?.buttons || DEFAULT_BUTTONS);
+    const [buttons, setButtons] = useState(() => migrateButtons(savedState?.buttons || DEFAULT_BUTTONS));
     const [maintenanceCalories, setMaintenanceCalories] = useState(savedState?.maintenanceCalories || 2000);
     const [groqApiKey, setGroqApiKey] = useState(savedState?.groqApiKey || '');
     const [currentView, setCurrentView] = useState('home'); // 'home' | 'weekly' | 'settings'
@@ -90,7 +108,9 @@ export function CalorieProvider({ children }) {
     }, [activeDate, buttons]);
 
     const addMeal = useCallback((meal) => {
-        // meal: { description, totalCalories, items: [{name, calories}], explanation }
+        // meal: { type, description, totalCalories, items: [{name, calories}], explanation }
+        const isExercise = meal.type === 'exercise';
+        const calorieDelta = isExercise ? -meal.totalCalories : meal.totalCalories;
         setDailyLogs(prev => {
             const dayLog = prev[activeDate] || { meals: [], buttonQuantities: {}, totalCalories: 0 };
             return {
@@ -98,7 +118,7 @@ export function CalorieProvider({ children }) {
                 [activeDate]: {
                     ...dayLog,
                     meals: [...dayLog.meals, { ...meal, timestamp: new Date().toISOString() }],
-                    totalCalories: dayLog.totalCalories + meal.totalCalories,
+                    totalCalories: Math.max(0, dayLog.totalCalories + calorieDelta),
                 }
             };
         });
@@ -110,6 +130,8 @@ export function CalorieProvider({ children }) {
             if (!dayLog) return prev;
             const meal = dayLog.meals[mealIndex];
             if (!meal) return prev;
+            const isExercise = meal.type === 'exercise';
+            const calorieDelta = isExercise ? -meal.totalCalories : meal.totalCalories;
             const newMeals = [...dayLog.meals];
             newMeals.splice(mealIndex, 1);
             return {
@@ -117,7 +139,7 @@ export function CalorieProvider({ children }) {
                 [activeDate]: {
                     ...dayLog,
                     meals: newMeals,
-                    totalCalories: dayLog.totalCalories - meal.totalCalories,
+                    totalCalories: Math.max(0, dayLog.totalCalories - calorieDelta),
                 }
             };
         });

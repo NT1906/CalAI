@@ -1,0 +1,204 @@
+.macro-table-section {
+    padding: 0 var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+/* ── Daily totals bar ── */
+.macro-totals {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+    gap: var(--space-2);
+}
+
+.macro-total-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.macro-total-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border-glass);
+    flex-shrink: 0;
+}
+
+.mt-value {
+    font-size: var(--font-md);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.mt-value.calories {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mt-value.protein { color: #ef4444; }
+.mt-value.carbs   { color: #f59e0b; }
+.mt-value.fats    { color: #818cf8; }
+.mt-value.fiber   { color: #22c55e; }
+
+.mt-label {
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+}
+
+/* ── Macro ratio bar ── */
+.macro-bar-container {
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.macro-bar {
+    display: flex;
+    height: 10px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    gap: 2px;
+}
+
+.macro-bar-segment {
+    border-radius: var(--radius-full);
+    transition: flex var(--transition-base);
+}
+
+.macro-bar-segment.protein { background: #ef4444; }
+.macro-bar-segment.carbs   { background: #f59e0b; }
+.macro-bar-segment.fats    { background: #818cf8; }
+
+.macro-bar-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-dot.protein { background: #ef4444; }
+.legend-dot.carbs   { background: #f59e0b; }
+.legend-dot.fats    { background: #818cf8; }
+
+/* ── Breakdown table ── */
+.macro-table-container {
+    padding: var(--space-3);
+    overflow-x: auto;
+}
+
+.macro-table {
+    width: 100%;
+    min-width: 340px;
+}
+
+.macro-table-head {
+    display: flex;
+    align-items: center;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border-glass);
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.macro-table-row {
+    display: flex;
+    align-items: center;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: background var(--transition-fast);
+}
+
+.macro-table-row:hover {
+    background: var(--bg-glass-hover);
+}
+
+.macro-table-row.meal-row {
+    font-size: var(--font-sm);
+}
+
+.macro-table-row.sub-row {
+    font-size: var(--font-xs);
+    opacity: 0.7;
+}
+
+.macro-table-row.total-row {
+    border-top: 2px solid var(--border-glass-hover);
+    border-bottom: none;
+    margin-top: var(--space-1);
+    padding-top: var(--space-3);
+    font-size: var(--font-sm);
+}
+
+.mt-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mt-cell.name {
+    flex: 1;
+    min-width: 0;
+    padding-right: var(--space-2);
+    color: var(--text-secondary);
+}
+
+.mt-cell.name.sub {
+    padding-left: var(--space-4);
+    color: var(--text-tertiary);
+}
+
+.mt-cell.num {
+    width: 42px;
+    text-align: right;
+    flex-shrink: 0;
+    color: var(--text-secondary);
+}
+
+.mt-cell.num.sub {
+    color: var(--text-tertiary);
+}
+
+.mt-cell.num.bold {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.protein-text { color: #ef4444 !important; }
+.carbs-text   { color: #f59e0b !important; }
+.fats-text    { color: #818cf8 !important; }
+.fiber-text   { color: #22c55e !important; }
+
+/* ── Macro table group ── */
+.macro-table-group + .macro-table-group {
+    border-top: 1px solid var(--border-glass);
+}
+
+.macro-table-group + .macro-table-group .macro-table-row:first-child {
+    padding-top: var(--space-2);
+}
