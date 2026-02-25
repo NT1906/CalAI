@@ -6,12 +6,18 @@ export default function QuickButtons() {
     const { buttons, currentDayLog, updateButtonQuantity, addButton, removeButton, updateButton } = useCalorie();
     const [showAddModal, setShowAddModal] = useState(false);
     const [editingButton, setEditingButton] = useState(null);
-    const [newBtn, setNewBtn] = useState({ name: '', emoji: '🍽️', caloriesPerUnit: 0, unit: 'serving' });
+    const [newBtn, setNewBtn] = useState({ name: '', emoji: '🍽️', caloriesPerUnit: 0, proteinPerUnit: 0, carbsPerUnit: 0, fatsPerUnit: 0, fiberPerUnit: 0, unit: 'serving' });
 
     const handleAdd = () => {
         if (!newBtn.name || newBtn.caloriesPerUnit <= 0) return;
-        addButton(newBtn);
-        setNewBtn({ name: '', emoji: '🍽️', caloriesPerUnit: 0, unit: 'serving' });
+        addButton({
+            ...newBtn,
+            proteinPerUnit: Number(newBtn.proteinPerUnit) || 0,
+            carbsPerUnit: Number(newBtn.carbsPerUnit) || 0,
+            fatsPerUnit: Number(newBtn.fatsPerUnit) || 0,
+            fiberPerUnit: Number(newBtn.fiberPerUnit) || 0,
+        });
+        setNewBtn({ name: '', emoji: '🍽️', caloriesPerUnit: 0, proteinPerUnit: 0, carbsPerUnit: 0, fatsPerUnit: 0, fiberPerUnit: 0, unit: 'serving' });
         setShowAddModal(false);
     };
 
@@ -132,6 +138,27 @@ export default function QuickButtons() {
                                 className="modal-input"
                             />
                         </div>
+                        <div className="modal-macro-section">
+                            <label className="modal-macro-title">Macros per unit (grams)</label>
+                            <div className="modal-macro-grid">
+                                <div className="modal-macro-field">
+                                    <label className="protein-label">Protein</label>
+                                    <input type="number" value={newBtn.proteinPerUnit || ''} onChange={e => setNewBtn(p => ({ ...p, proteinPerUnit: Number(e.target.value) }))} className="modal-input" placeholder="0" />
+                                </div>
+                                <div className="modal-macro-field">
+                                    <label className="carbs-label">Carbs</label>
+                                    <input type="number" value={newBtn.carbsPerUnit || ''} onChange={e => setNewBtn(p => ({ ...p, carbsPerUnit: Number(e.target.value) }))} className="modal-input" placeholder="0" />
+                                </div>
+                                <div className="modal-macro-field">
+                                    <label className="fats-label">Fats</label>
+                                    <input type="number" value={newBtn.fatsPerUnit || ''} onChange={e => setNewBtn(p => ({ ...p, fatsPerUnit: Number(e.target.value) }))} className="modal-input" placeholder="0" />
+                                </div>
+                                <div className="modal-macro-field">
+                                    <label className="fiber-label">Fiber</label>
+                                    <input type="number" value={newBtn.fiberPerUnit || ''} onChange={e => setNewBtn(p => ({ ...p, fiberPerUnit: Number(e.target.value) }))} className="modal-input" placeholder="0" />
+                                </div>
+                            </div>
+                        </div>
                         <div className="modal-actions">
                             <button className="modal-btn cancel" onClick={() => setShowAddModal(false)}>Cancel</button>
                             <button className="modal-btn confirm" onClick={handleAdd}>Add</button>
@@ -181,6 +208,27 @@ export default function QuickButtons() {
                                 onChange={e => setEditingButton(p => ({ ...p, unit: e.target.value }))}
                                 className="modal-input"
                             />
+                        </div>
+                        <div className="modal-macro-section">
+                            <label className="modal-macro-title">Macros per unit (grams)</label>
+                            <div className="modal-macro-grid">
+                                <div className="modal-macro-field">
+                                    <label className="protein-label">Protein</label>
+                                    <input type="number" value={editingButton.proteinPerUnit || ''} onChange={e => setEditingButton(p => ({ ...p, proteinPerUnit: Number(e.target.value) }))} className="modal-input" placeholder="0" />
+                                </div>
+                                <div className="modal-macro-field">
+                                    <label className="carbs-label">Carbs</label>
+                                    <input type="number" value={editingButton.carbsPerUnit || ''} onChange={e => setEditingButton(p => ({ ...p, carbsPerUnit: Number(e.target.value) }))} className="modal-input" placeholder="0" />
+                                </div>
+                                <div className="modal-macro-field">
+                                    <label className="fats-label">Fats</label>
+                                    <input type="number" value={editingButton.fatsPerUnit || ''} onChange={e => setEditingButton(p => ({ ...p, fatsPerUnit: Number(e.target.value) }))} className="modal-input" placeholder="0" />
+                                </div>
+                                <div className="modal-macro-field">
+                                    <label className="fiber-label">Fiber</label>
+                                    <input type="number" value={editingButton.fiberPerUnit || ''} onChange={e => setEditingButton(p => ({ ...p, fiberPerUnit: Number(e.target.value) }))} className="modal-input" placeholder="0" />
+                                </div>
+                            </div>
                         </div>
                         <div className="modal-actions">
                             <button className="modal-btn danger" onClick={() => handleDelete(editingButton.id)}>Delete</button>

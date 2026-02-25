@@ -2,6 +2,7 @@ import { useCalorie } from './context/CalorieContext';
 import DateNavbar from './components/DateNavbar';
 import QuickButtons from './components/QuickButtons';
 import FoodInput from './components/FoodInput';
+import MacroTable from './components/MacroTable';
 import CalorieDashboard from './components/CalorieDashboard';
 import WeeklySummary from './components/WeeklySummary';
 import Settings from './components/Settings';
@@ -28,6 +29,7 @@ function App() {
             <CalorieDashboard />
             <QuickButtons />
             <FoodInput />
+            <MacroTable />
           </div>
         )}
 

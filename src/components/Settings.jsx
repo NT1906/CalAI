@@ -13,12 +13,19 @@ export default function Settings() {
     const [editingId, setEditingId] = useState(null);
     const [editForm, setEditForm] = useState({});
     const [showAddForm, setShowAddForm] = useState(false);
-    const [newBtn, setNewBtn] = useState({ name: '', emoji: '🍽️', caloriesPerUnit: '', unit: 'serving' });
+    const [newBtn, setNewBtn] = useState({ name: '', emoji: '🍽️', caloriesPerUnit: '', proteinPerUnit: '', carbsPerUnit: '', fatsPerUnit: '', fiberPerUnit: '', unit: 'serving' });
 
     const handleAddButton = () => {
         if (!newBtn.name || !newBtn.caloriesPerUnit) return;
-        addButton({ ...newBtn, caloriesPerUnit: Number(newBtn.caloriesPerUnit) });
-        setNewBtn({ name: '', emoji: '🍽️', caloriesPerUnit: '', unit: 'serving' });
+        addButton({
+            ...newBtn,
+            caloriesPerUnit: Number(newBtn.caloriesPerUnit),
+            proteinPerUnit: Number(newBtn.proteinPerUnit) || 0,
+            carbsPerUnit: Number(newBtn.carbsPerUnit) || 0,
+            fatsPerUnit: Number(newBtn.fatsPerUnit) || 0,
+            fiberPerUnit: Number(newBtn.fiberPerUnit) || 0,
+        });
+        setNewBtn({ name: '', emoji: '🍽️', caloriesPerUnit: '', proteinPerUnit: '', carbsPerUnit: '', fatsPerUnit: '', fiberPerUnit: '', unit: 'serving' });
         setShowAddForm(false);
     };
 
@@ -28,7 +35,14 @@ export default function Settings() {
     };
 
     const saveEdit = () => {
-        updateButton(editingId, { ...editForm, caloriesPerUnit: Number(editForm.caloriesPerUnit) });
+        updateButton(editingId, {
+            ...editForm,
+            caloriesPerUnit: Number(editForm.caloriesPerUnit),
+            proteinPerUnit: Number(editForm.proteinPerUnit) || 0,
+            carbsPerUnit: Number(editForm.carbsPerUnit) || 0,
+            fatsPerUnit: Number(editForm.fatsPerUnit) || 0,
+            fiberPerUnit: Number(editForm.fiberPerUnit) || 0,
+        });
         setEditingId(null);
     };
 
@@ -133,6 +147,49 @@ export default function Settings() {
                                             placeholder="Unit"
                                         />
                                     </div>
+                                    <div className="macro-fields-label">Macros per unit (grams)</div>
+                                    <div className="edit-row macro-row">
+                                        <div className="macro-field-group">
+                                            <label className="macro-field-label protein-label">P</label>
+                                            <input
+                                                type="number"
+                                                value={editForm.proteinPerUnit ?? ''}
+                                                onChange={e => setEditForm(p => ({ ...p, proteinPerUnit: e.target.value }))}
+                                                className="modal-input macro-input"
+                                                placeholder="0"
+                                            />
+                                        </div>
+                                        <div className="macro-field-group">
+                                            <label className="macro-field-label carbs-label">C</label>
+                                            <input
+                                                type="number"
+                                                value={editForm.carbsPerUnit ?? ''}
+                                                onChange={e => setEditForm(p => ({ ...p, carbsPerUnit: e.target.value }))}
+                                                className="modal-input macro-input"
+                                                placeholder="0"
+                                            />
+                                        </div>
+                                        <div className="macro-field-group">
+                                            <label className="macro-field-label fats-label">F</label>
+                                            <input
+                                                type="number"
+                                                value={editForm.fatsPerUnit ?? ''}
+                                                onChange={e => setEditForm(p => ({ ...p, fatsPerUnit: e.target.value }))}
+                                                className="modal-input macro-input"
+                                                placeholder="0"
+                                            />
+                                        </div>
+                                        <div className="macro-field-group">
+                                            <label className="macro-field-label fiber-label">Fib</label>
+                                            <input
+                                                type="number"
+                                                value={editForm.fiberPerUnit ?? ''}
+                                                onChange={e => setEditForm(p => ({ ...p, fiberPerUnit: e.target.value }))}
+                                                className="modal-input macro-input"
+                                                placeholder="0"
+                                            />
+                                        </div>
+                                    </div>
                                     <div className="edit-actions">
                                         <button className="modal-btn cancel" onClick={() => setEditingId(null)}>Cancel</button>
                                         <button className="modal-btn confirm" onClick={saveEdit}>Save</button>
@@ -145,6 +202,12 @@ export default function Settings() {
                                         <div>
                                             <div className="button-config-name">{btn.name}</div>
                                             <div className="button-config-cal">{btn.caloriesPerUnit} kcal / {btn.unit}</div>
+                                        <div className="button-config-macros">
+                                            <span className="config-macro protein-label">P: {btn.proteinPerUnit || 0}g</span>
+                                            <span className="config-macro carbs-label">C: {btn.carbsPerUnit || 0}g</span>
+                                            <span className="config-macro fats-label">F: {btn.fatsPerUnit || 0}g</span>
+                                            <span className="config-macro fiber-label">Fib: {btn.fiberPerUnit || 0}g</span>
+                                        </div>
                                         </div>
                                     </div>
                                     <div className="button-config-actions">
@@ -190,6 +253,49 @@ export default function Settings() {
                                 className="modal-input"
                                 placeholder="Unit (bowl, piece)"
                             />
+                        </div>
+                        <div className="macro-fields-label">Macros per unit (grams)</div>
+                        <div className="edit-row macro-row">
+                            <div className="macro-field-group">
+                                <label className="macro-field-label protein-label">P</label>
+                                <input
+                                    type="number"
+                                    value={newBtn.proteinPerUnit}
+                                    onChange={e => setNewBtn(p => ({ ...p, proteinPerUnit: e.target.value }))}
+                                    className="modal-input macro-input"
+                                    placeholder="0"
+                                />
+                            </div>
+                            <div className="macro-field-group">
+                                <label className="macro-field-label carbs-label">C</label>
+                                <input
+                                    type="number"
+                                    value={newBtn.carbsPerUnit}
+                                    onChange={e => setNewBtn(p => ({ ...p, carbsPerUnit: e.target.value }))}
+                                    className="modal-input macro-input"
+                                    placeholder="0"
+                                />
+                            </div>
+                            <div className="macro-field-group">
+                                <label className="macro-field-label fats-label">F</label>
+                                <input
+                                    type="number"
+                                    value={newBtn.fatsPerUnit}
+                                    onChange={e => setNewBtn(p => ({ ...p, fatsPerUnit: e.target.value }))}
+                                    className="modal-input macro-input"
+                                    placeholder="0"
+                                />
+                            </div>
+                            <div className="macro-field-group">
+                                <label className="macro-field-label fiber-label">Fib</label>
+                                <input
+                                    type="number"
+                                    value={newBtn.fiberPerUnit}
+                                    onChange={e => setNewBtn(p => ({ ...p, fiberPerUnit: e.target.value }))}
+                                    className="modal-input macro-input"
+                                    placeholder="0"
+                                />
+                            </div>
                         </div>
                         <div className="edit-actions">
                             <button className="modal-btn cancel" onClick={() => setShowAddForm(false)}>Cancel</button>
